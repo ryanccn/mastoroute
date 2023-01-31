@@ -64,7 +64,13 @@ export const handler: Handlers<Data, MiddlewareState> = {
       return new Response(null, { status: 307, headers });
     }
 
-    return ctx.render({ currentInstance: instanceFormValue, success: true });
+    const page = await ctx.render({
+      currentInstance: instanceFormValue,
+      success: true,
+    });
+    page.headers.set("set-cookie", headers.get("set-cookie")!);
+
+    return page;
   },
 };
 
