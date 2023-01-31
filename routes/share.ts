@@ -10,7 +10,7 @@ export const handler: Handlers<unknown, MiddlewareState> = {
         status: 307,
         headers: {
           Location: `/configure?returnTo=${
-            encodeURIComponent(new URL(req.url).pathname)
+            encodeURIComponent(new URL(req.url).href)
           }`,
         },
       });
