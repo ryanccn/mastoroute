@@ -8,7 +8,11 @@ export const handler: Handlers<unknown, MiddlewareState> = {
     if (!instance) {
       return new Response(null, {
         status: 307,
-        headers: { Location: "/configure" },
+        headers: {
+          Location: `/configure?returnTo=${
+            encodeURIComponent(new URL(req.url).pathname)
+          }`,
+        },
       });
     }
 
