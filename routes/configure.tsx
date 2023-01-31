@@ -73,7 +73,7 @@ const ConfigurePage = ({ url, data }: PageProps<Data>) => {
   const returnTo = url.searchParams.get("returnTo");
 
   return (
-    <Layout title="Set your instance">
+    <Layout title="Configure">
       <form class="flex flex-col gap-y-4" method="POST">
         {data.validationError && (
           <div class="bg-red-500 text-white font-medium px-4 py-3 rounded">

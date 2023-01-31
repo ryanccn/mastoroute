@@ -1,10 +1,14 @@
-import { ComponentChildren } from "preact";
+import { Head } from "$fresh/runtime.ts";
+import { type ComponentChildren } from "preact";
 
 export const Layout = (
   { title, children }: { title: string; children: ComponentChildren },
 ) => {
   return (
     <main class="flex flex-col gap-y-2 max-w-prose px-4 mx-auto py-36">
+      <Head>
+        <title>{title} · Mastoroute</title>
+      </Head>
       <a
         href="/"
         class="text-lg font-semibold tracking-tight text-gray-500 hover:text-gray-600"
