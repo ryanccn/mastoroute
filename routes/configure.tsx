@@ -61,7 +61,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
         "Location",
         returnTo,
       );
-      return new Response(null, { status: 307, headers });
+      return new Response(null, { status: 302, headers });
     }
 
     const page = await ctx.render({
