@@ -6,11 +6,13 @@ export const handler: Handlers<unknown, MiddlewareState> = {
     const instance = ctx.state.currentInstance;
 
     if (!instance) {
+      const currentURL = new URL(req.url);
+
       return new Response(null, {
         status: 307,
         headers: {
           Location: `/configure?returnTo=${
-            encodeURIComponent(new URL(req.url).href)
+            encodeURIComponent(currentURL.pathname + currentURL.search)
           }`,
         },
       });
