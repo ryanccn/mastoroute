@@ -31,7 +31,7 @@ export const handler: Handlers<unknown, MiddlewareState> = {
     redirectURL.searchParams.set("text", text);
 
     return new Response(null, {
-      status: 307,
+      status: 303,
       headers: { Location: redirectURL.toString() },
     });
   },
