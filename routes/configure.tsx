@@ -27,7 +27,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
       parsedBody = await req.formData();
     } catch {
       return ctx.render({
-        currentInstance: null,
+        currentInstance: ctx.state.currentInstance,
         validationError: "Unable to parse form body!",
       });
     }
@@ -39,7 +39,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
       !FQDN_REGEX.exec(instanceFormValue)
     ) {
       return ctx.render({
-        currentInstance: null,
+        currentInstance: ctx.state.currentInstance,
         validationError: "Invalid instance domain provided!",
       });
     }
