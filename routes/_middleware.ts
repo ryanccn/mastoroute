@@ -1,10 +1,11 @@
 import { MiddlewareHandlerContext } from "$fresh/server.ts";
-import { getCookies, setCookie } from "std/http/cookie.ts";
+import { getCookies } from "std/http/cookie.ts";
 
-import { FQDN_REGEX } from "../utils.ts";
+import { FQDN_REGEX, safeDeleteCookie } from "../utils.ts";
 
 export interface MiddlewareState {
   currentInstance: string | null;
+  elk: boolean;
 }
 
 export async function handler(
@@ -23,9 +24,29 @@ export async function handler(
 
   ctx.state.currentInstance = currentInstance;
 
+  let elkIsValid = false;
+
+  if ("elk" in cookies) {
+    if (cookies.elk === "1") {
+      elkIsValid = true;
+      ctx.state.elk = true;
+    } else {
+      elkIsValid = false;
+      ctx.state.elk = false;
+    }
+  } else {
+    elkIsValid = true;
+    ctx.state.elk = false;
+  }
+
   const resp = await ctx.next();
+
+  if (!elkIsValid) {
+    safeDeleteCookie(req.headers, resp.headers, "elk");
+  }
+
   if (instanceIsInvalid) {
-    setCookie(resp.headers, { name: "instance", value: "" });
+    safeDeleteCookie(req.headers, resp.headers, "instance");
   }
 
   return resp;

@@ -3,9 +3,9 @@ import { MiddlewareState } from "./_middleware.ts";
 
 export const handler: Handlers<unknown, MiddlewareState> = {
   GET: (req, ctx) => {
-    const instance = ctx.state.currentInstance;
+    const { currentInstance: instance, elk } = ctx.state;
 
-    if (!instance) {
+    if (!instance && !elk) {
       const currentURL = new URL(req.url);
 
       return new Response(null, {
@@ -27,7 +27,9 @@ export const handler: Handlers<unknown, MiddlewareState> = {
       });
     }
 
-    const redirectURL = new URL(`https://${instance}/share`);
+    const redirectURL = new URL(
+      elk ? "https://elk.zone/intent/post" : `https://${instance}/share`,
+    );
     redirectURL.searchParams.set("text", text);
 
     return new Response(null, {

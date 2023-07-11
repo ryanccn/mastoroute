@@ -1,12 +1,13 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
 import { setCookie } from "std/http/cookie.ts";
 
-import { type MiddlewareState } from "./_middleware.ts";
-import { Layout } from "../components/Layout.tsx";
-import { FQDN_REGEX } from "../utils.ts";
+import { type MiddlewareState } from "../_middleware.ts";
+import { Layout } from "../../components/Layout.tsx";
+import { copySetCookies, FQDN_REGEX, safeDeleteCookie } from "../../utils.ts";
 
 interface Data {
   currentInstance: string | null;
+  elk: boolean;
   success?: true;
   validationError?: string;
 }
@@ -15,6 +16,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
   GET: async (_req, ctx) => {
     const page = await ctx.render({
       currentInstance: ctx.state.currentInstance,
+      elk: ctx.state.elk,
     });
 
     return page;
@@ -28,6 +30,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
     } catch {
       return ctx.render({
         currentInstance: ctx.state.currentInstance,
+        elk: ctx.state.elk,
         validationError: "Unable to parse form body!",
       });
     }
@@ -40,6 +43,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
     ) {
       return ctx.render({
         currentInstance: ctx.state.currentInstance,
+        elk: ctx.state.elk,
         validationError: "Invalid instance domain provided!",
       });
     }
@@ -53,6 +57,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
       path: "/",
       maxAge: 365 * 24 * 60 * 60,
     });
+    safeDeleteCookie(req.headers, headers, "elk");
 
     const returnTo = new URL(req.url).searchParams.get("returnTo");
 
@@ -66,9 +71,10 @@ export const handler: Handlers<Data, MiddlewareState> = {
 
     const page = await ctx.render({
       currentInstance: instanceFormValue,
+      elk: false,
       success: true,
     });
-    page.headers.set("set-cookie", headers.get("set-cookie")!);
+    copySetCookies(headers, page.headers);
 
     return page;
   },
@@ -76,6 +82,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
 
 const ConfigurePage = ({ url, data }: PageProps<Data>) => {
   const currentInstance = data.currentInstance ?? "";
+  const elk = data.elk;
   const returnTo = url.searchParams.get("returnTo");
 
   return (
@@ -86,11 +93,12 @@ const ConfigurePage = ({ url, data }: PageProps<Data>) => {
             {data.validationError}
           </div>
         )}
-        {!data.validationError && currentInstance && (
+        {!data.validationError && (currentInstance || elk) && (
           <div class="bg-green-500 text-white font-medium px-4 py-3 rounded">
             Your instance is correctly configured!
           </div>
         )}
+
         <input
           type="text"
           id="instance"
@@ -100,15 +108,35 @@ const ConfigurePage = ({ url, data }: PageProps<Data>) => {
           placeholder="mastodon.social"
           defaultValue={currentInstance}
         />
+
         <p class="text-gray-600">
           This instance domain will be saved in your cookies for future
           redirects.
         </p>
+
         <button
           type="submit"
           class="px-3 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-400 focus:outline-none rounded self-start"
         >
           Save{returnTo && " & continue"}
+        </button>
+      </form>
+
+      <span class="my-4 text-xs self-center text-gray-400 font-medium">
+        or
+      </span>
+
+      <form action="/configure/elk" method="POST">
+        <button
+          type="submit"
+          class={`${
+            elk
+              ? "bg-green-50 hover:bg-green-100"
+              : "bg-gray-50 hover:bg-gray-100"
+          } text-center font-medium transition-colors w-full px-3 py-12 rounded`}
+          disabled={elk}
+        >
+          {elk ? "Using" : "Use"} Elk
         </button>
       </form>
     </Layout>
