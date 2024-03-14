@@ -13,8 +13,12 @@ const IndexPage = () => {
         For web developers, all you have to do is to link to this website at
         {" "}
         <code class="text-sm tracking-tight break-all select-all">
-          <span class="text-gray-600">https://mastoroute.deno.dev</span>
-          <span class="text-blue-500">/share?text=&lt;your text here&gt;</span>
+          <span class="text-neutral-700 dark:text-neutral-300">
+            https://mastoroute.deno.dev
+          </span>
+          <span class="text-blue-500 dark:text-blue-300">
+            /share?text=&lt;your text here&gt;
+          </span>
         </code>{" "}
         in order to route users automatically to their own Mastodon instances.
       </p>

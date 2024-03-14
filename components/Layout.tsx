@@ -9,13 +9,15 @@ export const Layout = (
       <Head>
         <title>{title} · Mastoroute</title>
       </Head>
+
       <a
         href="/"
-        class="text-lg font-semibold tracking-tight text-gray-500 hover:text-gray-600"
+        class="text-lg font-semibold tracking-tight text-neutral-500 hover:text-neutral-600"
       >
         <h2>Mastoroute</h2>
       </a>
       <h1 class="text-3xl font-bold tracking-tight mb-6">{title}</h1>
+
       {children}
     </main>
   );

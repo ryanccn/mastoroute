@@ -62,10 +62,7 @@ export const handler: Handlers<Data, MiddlewareState> = {
     const returnTo = new URL(req.url).searchParams.get("returnTo");
 
     if (returnTo && returnTo.startsWith("/")) {
-      headers.set(
-        "Location",
-        returnTo,
-      );
+      headers.set("location", returnTo);
       return new Response(null, { status: 302, headers });
     }
 
@@ -103,26 +100,26 @@ const ConfigurePage = ({ url, data }: PageProps<Data>) => {
           type="text"
           id="instance"
           name="instance"
-          class="rounded px-3 py-2 border border-gray-300 focus:border-gray-400 focus:outline-none"
+          class="rounded px-3 py-2 bg-neutral-100 dark:bg-neutral-900"
           aria-label="Instance domain"
           placeholder="mastodon.social"
           defaultValue={currentInstance}
         />
 
-        <p class="text-gray-600">
+        <p class="text-neutral-600 dark:text-neutral-400">
           This instance domain will be saved in your cookies for future
           redirects.
         </p>
 
         <button
           type="submit"
-          class="px-3 py-2 text-sm font-medium text-white bg-blue-500 hover:bg-blue-400 focus:outline-none rounded self-start"
+          class="px-4 py-2.5 text-sm font-medium text-white bg-blue-500 hover:bg-blue-400 focus:outline-none rounded self-start"
         >
           Save{returnTo && " & continue"}
         </button>
       </form>
 
-      <span class="my-4 text-xs self-center text-gray-400 font-medium">
+      <span class="my-8 text-xs self-center text-neutral-400 dark:text-neutral-600 uppercase font-medium">
         or
       </span>
 
@@ -131,8 +128,8 @@ const ConfigurePage = ({ url, data }: PageProps<Data>) => {
           type="submit"
           class={`${
             elk
-              ? "bg-green-50 hover:bg-green-100"
-              : "bg-gray-50 hover:bg-gray-100"
+              ? "bg-green-400/10 hover:bg-green-400/20"
+              : "bg-neutral-400/10 hover:bg-neutral-400/20"
           } text-center font-medium transition-colors w-full px-3 py-12 rounded`}
           disabled={elk}
         >

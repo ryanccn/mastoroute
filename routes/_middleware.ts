@@ -1,4 +1,4 @@
-import { MiddlewareHandlerContext } from "$fresh/server.ts";
+import type { FreshContext } from "$fresh/server.ts";
 import { getCookies } from "std/http/cookie.ts";
 
 import { FQDN_REGEX, safeDeleteCookie } from "../utils.ts";
@@ -10,7 +10,7 @@ export interface MiddlewareState {
 
 export async function handler(
   req: Request,
-  ctx: MiddlewareHandlerContext<MiddlewareState>,
+  ctx: FreshContext<MiddlewareState>,
 ) {
   const cookies = getCookies(req.headers);
   let currentInstance: string | null = cookies?.instance ?? null;

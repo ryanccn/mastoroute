@@ -1,5 +1,5 @@
-import { Handlers } from "$fresh/server.ts";
-import { MiddlewareState } from "./_middleware.ts";
+import type { Handlers } from "$fresh/server.ts";
+import type { MiddlewareState } from "./_middleware.ts";
 
 export const handler: Handlers<unknown, MiddlewareState> = {
   GET: (req, ctx) => {
