@@ -1,7 +1,7 @@
 import type { Handlers } from "$fresh/server.ts";
 import type { MiddlewareState } from "../_middleware.ts";
 
-import { setCookie } from "std/http/cookie.ts";
+import { setCookie } from "@std/http/cookie";
 import { safeDeleteCookie } from "../../utils.ts";
 
 export const handler: Handlers<unknown, MiddlewareState> = {

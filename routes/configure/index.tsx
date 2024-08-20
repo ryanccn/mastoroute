@@ -1,5 +1,5 @@
 import { Handlers, PageProps } from "$fresh/server.ts";
-import { setCookie } from "std/http/cookie.ts";
+import { setCookie } from "@std/http/cookie";
 
 import { type MiddlewareState } from "../_middleware.ts";
 import { Layout } from "../../components/Layout.tsx";

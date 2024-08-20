@@ -1,0 +1,22 @@
+{
+  "nodeModulesDir": true,
+  "tasks": {
+    "start": "deno run -A --watch=static/,routes/ dev.ts",
+    "build": "deno run -A dev.ts build",
+    "preview": "deno run -A main.ts"
+  },
+  "compilerOptions": { "jsx": "react-jsx", "jsxImportSource": "preact" },
+  "imports": {
+    "$fresh/": "https://deno.land/x/fresh@1.7.1/",
+    "@std/http": "jsr:@std/http@^1.0.3",
+    "preact": "https://esm.sh/preact@10.19.6",
+    "preact/": "https://esm.sh/preact@10.19.6/",
+    "tailwindcss": "npm:tailwindcss@3.4.10",
+    "tailwindcss/": "npm:/tailwindcss@3.4.10/",
+    "tailwindcss/plugin": "npm:/tailwindcss@3.4.10/plugin.js",
+    "@preact/signals": "https://esm.sh/*@preact/signals@1.2.2",
+    "@preact/signals-core": "https://esm.sh/*@preact/signals-core@1.5.1"
+  },
+  "lint": { "rules": { "tags": ["fresh", "recommended"] } },
+  "exclude": ["**/_fresh/*"]
+}

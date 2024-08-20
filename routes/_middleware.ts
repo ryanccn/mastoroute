@@ -1,5 +1,5 @@
 import type { FreshContext } from "$fresh/server.ts";
-import { getCookies } from "std/http/cookie.ts";
+import { getCookies } from "@std/http/cookie";
 
 import { FQDN_REGEX, safeDeleteCookie } from "../utils.ts";
 

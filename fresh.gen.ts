@@ -9,7 +9,7 @@ import * as $configure_index from "./routes/configure/index.tsx";
 import * as $index from "./routes/index.tsx";
 import * as $share from "./routes/share.ts";
 
-import { type Manifest } from "$fresh/server.ts";
+import type { Manifest } from "$fresh/server.ts";
 
 const manifest = {
   routes: {
